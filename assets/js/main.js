@@ -1,64 +1,65 @@
-const sliderMain = document.querySelector(".slider__main");
-const sliderItems = document.querySelectorAll(".slider__item");
-const prevBtn = document.querySelector(".slider__nav-prev");
-const nextBtn = document.querySelector(".slider__nav-next");
-const dotItems = document.querySelectorAll(".slider__dot-item");
+// Sidebar
+const itemSidebar = document.querySelectorAll(".category__sidebar-item");
 
-const sliderItemWidth = sliderItems[0].offsetWidth;
-const sliderLenght = sliderItems.length;
+itemSidebar.forEach((item) => {
+    item.addEventListener("click", function() {
+        item.classList.toggle("block");
+    });
+});
 
-let positionX = 0;
-let index = 0;
+// Product
+const tabs = document.querySelectorAll(".tab-item");
+const contents = document.querySelectorAll(".tab-content");
+const showMore = document.querySelector(".show-more a");
+const showImg = document.querySelector(".showImg");
+const showHide = document.querySelector(".showHide");
 
-dotItems.forEach(item => item.addEventListener("click", function(e) {
-    dotItems.forEach(el => el.classList.remove("active"));
-    e.target.classList.add("active");
-    const sliderIndex = parseInt(e.target.dataset.index);
-    index = sliderIndex;
-    positionX = -1 * index * sliderItemWidth;
-    sliderMain.style = `transform: translateX(${positionX}px)`;
-}))
+const bigImg = document.querySelector(".product__content-left-big img");
+const smallImg = document.querySelectorAll(".product__content-left-small img");
 
-prevBtn.addEventListener("click", function() {
-    handleChangeSlider(-1);
+smallImg.forEach((img) => {
+    img.addEventListener("click", function(){
+        bigImg.src = img.src;
+    })
 })
 
-nextBtn.addEventListener("click", function() {
-    handleChangeSlider(1);
+tabs.forEach((tab, index) => {
+    const content = contents[index];
+
+    tab.onclick = function() {
+        const tabActive = document.querySelector(".tab-item.active");
+        const contentActive = document.querySelector(".tab-content.active");
+        tabActive.classList.remove("active");
+        contentActive.classList.remove("active");
+
+        this.classList.add("active");
+        content.classList.add("active");  
+
+        contents.forEach((content) => {
+            content.classList.remove("showContent");
+
+            showImg.classList.remove("showImg");
+            showImg.classList.remove("showHide");
+            showHide.classList.remove("showHide");
+            showHide.classList.remove("showImg");
+
+            showImg.classList.add("showImg");
+            showHide.classList.add("showHide");
+        })
+    }
 })
 
+if (showMore) {
+    showMore.addEventListener("click", function(e) {
+        e.preventDefault();
+        contents.forEach((content) => {
+            content.classList.toggle("showContent");
 
-function handleChangeSlider(direction) {
-    if (direction === 1) {
-        index++;
-        if (index > sliderLenght - 1) {
-            index = 0;
-        }
-        positionX = -1 * index * sliderItemWidth;
-        sliderMain.style = `transform: translateX(${positionX}px)`;
-    } else if (direction === - 1) {
-        index--;
-        if (index < 0) {
-            index = sliderLenght - 1;
-        }
-        positionX = -1 * index * sliderItemWidth;
-        sliderMain.style = `transform: translateX(${positionX}px)`;
-    }
-
-    dotItems.forEach(el => el.classList.remove("active"));
-    dotItems[index].classList.add("active");
+            showImg.classList.toggle("showImg");
+            showImg.classList.toggle("showHide");
+            
+            showHide.classList.toggle("showHide");
+            showHide.classList.toggle("showImg");
+        })
+    }) 
 }
-
-function imgSlider() {
-    index++;
-    if (index >= sliderLenght) {
-        index = 0;
-    }
-    positionX = -1 * index * sliderItemWidth;
-    sliderMain.style = `transform: translateX(${positionX}px)`;
-
-    dotItems.forEach(el => el.classList.remove("active"));
-    dotItems[index].classList.add("active");
-}
-
-// setInterval(imgSlider, 5000);
