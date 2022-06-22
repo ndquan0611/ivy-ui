@@ -1,4 +1,8 @@
 <?php
+    include "config.php";   
+?>
+
+<?php
 Class Database {
     public $host = DB_HOST;
     public $user = DB_USER;
@@ -7,7 +11,8 @@ Class Database {
 
     public $link;
     public $error;
-    public function _construct() {
+    
+    public function __construct() {
         $this -> connectDB();
     }
 
@@ -30,7 +35,7 @@ Class Database {
     }
 
     // Insert data 
-    public function select($query) {
+    public function insert($query) {
         $insert_row = $this -> link -> query($query) or die($this -> link -> error.__LINE__);
         if ($insert_row) {
             return $insert_row;
@@ -40,7 +45,7 @@ Class Database {
     }
 
     // Update data 
-    public function select($query) {
+    public function update($query) {
         $update_row = $this -> link -> query($query) or die($this -> link -> error.__LINE__);
         if ($update_row) {
             return $update_row;
@@ -50,7 +55,7 @@ Class Database {
     }
 
     // Delete data
-    public function select($query) {
+    public function delete($query) {
         $delete_row = $this -> link -> query($query) or die($this -> link -> error.__LINE__);
         if ($delete_row) {
             return $delete_row;
